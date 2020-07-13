@@ -318,6 +318,18 @@ if(UA_ENABLE_PUBSUB_MQTT)
     endif()
 endif()
 
+option(UA_ENABLE_PUBSUB_AMQP "Enable publish/subscribe with AMQP" OFF)
+mark_as_advanced(UA_ENABLE_PUBSUB_AMQP)
+if (UA_ENABLE_PUBSUB_AMQP)
+    if(WIN32)
+        message(FATAL_ERROR "UA_ENABLE_PUBSUB AMQP is not supported with Windows")
+    endif()
+
+    if (NOT UA_ENABLE_PUBSUB)
+        message(FATAL_ERROR "UA_ENABLE_PUBSUB must be on")
+    endif()
+endif()
+
 option(UA_ENABLE_STATUSCODE_DESCRIPTIONS "Enable conversion of StatusCode to human-readable error message" ON)
 mark_as_advanced(UA_ENABLE_STATUSCODE_DESCRIPTIONS)
 
@@ -885,6 +897,11 @@ if(UA_ENABLE_PUBSUB)
             list(APPEND default_plugin_headers ${PROJECT_SOURCE_DIR}/plugins/mqtt/ua_mqtt_adapter.h)
             list(APPEND default_plugin_sources ${PROJECT_SOURCE_DIR}/plugins/mqtt/ua_mqtt_adapter.c)
         endif()
+    endif()
+
+    if (UA_ENABLE_PUBSUB_AMQP)
+        list(APPEND default_plugin_headers ${PROJECT_SOURCE_DIR}/plugins/amqp/ua_pubsub_amqp.h)
+        list(APPEND default_plugin_sources ${PROJECT_SOURCE_DIR}/plugins/amqp/ua_pubsub_amqp.c)
     endif()
 endif()
 
