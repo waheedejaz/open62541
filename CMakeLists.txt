@@ -900,8 +900,7 @@ if(UA_ENABLE_PUBSUB)
     endif()
 
     if (UA_ENABLE_PUBSUB_AMQP)
-        list(APPEND default_plugin_headers ${PROJECT_SOURCE_DIR}/plugins/amqp/ua_pubsub_amqp.h)
-        list(APPEND default_plugin_sources ${PROJECT_SOURCE_DIR}/plugins/amqp/ua_pubsub_amqp.c)
+        add_subdirectory(${PROJECT_SOURCE_DIR}/plugins/amqp)
     endif()
 endif()
 

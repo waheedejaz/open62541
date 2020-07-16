@@ -21,10 +21,10 @@
 /* Common platform-independent implementation for proactor libraries */
 
 #include "proactor-internal.h"
-#include <proton/error.h>
-#include <proton/listener.h>
-#include <proton/netaddr.h>
-#include <proton/proactor.h>
+#include <amqp/proton/error.h>
+#include <amqp/proton/listener.h>
+#include <amqp/proton/netaddr.h>
+#include <amqp/proton/proactor.h>
 
 #include <stdio.h>
 #include <stdlib.h>

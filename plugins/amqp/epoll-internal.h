@@ -24,12 +24,16 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <pthread.h>
 
+/*
+#include <pthread.h>
+*/
+
+/*
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
-
+*/
 
 #include <proton/connection_driver.h>
 #include <proton/proactor.h>
@@ -43,7 +47,7 @@ extern "C" {
 
 typedef struct acceptor_t acceptor_t;
 typedef struct tslot_t tslot_t;
-typedef pthread_mutex_t pmutex;
+//typedef pthread_mutex_t pmutex;
 
 typedef enum {
   WAKE,   /* see if any work to do in proactor/psocket context */
@@ -59,11 +63,11 @@ typedef struct epoll_extended_t {
   epoll_type_t type;   // io/timer/wakeup
   uint32_t wanted;     // events to poll for
   bool polling;
-  pmutex barrier_mutex;
+  UA_LOCK_TYPE(barrier_mutex);
 } epoll_extended_t;
 
 typedef struct ptimer_t {
-  pmutex mutex;
+  UA_LOCK_TYPE(mutex);
   epoll_extended_t epoll_io;
   bool timer_active;
   bool in_doubt;  // 0 or 1 callbacks are possible
@@ -76,26 +80,26 @@ typedef enum {
   LISTENER
 } pcontext_type_t;
 
-typedef struct pcontext_t {
-  pmutex mutex;
-  pn_proactor_t *proactor;  /* Immutable */
-  pcontext_type_t type;
-  bool working;
-  bool on_wake_list;
-  bool wake_pending;             // unprocessed eventfd wake callback (convert to bool?)
-  struct pcontext_t *wake_next; // wake list, guarded by proactor eventfd_mutex
-  bool closing;
-  // Next 4 are protected by the proactor mutex
-  struct pcontext_t* next;  /* Protected by proactor.mutex */
-  struct pcontext_t* prev;  /* Protected by proactor.mutex */
-  int disconnect_ops;           /* ops remaining before disconnect complete */
-  bool disconnecting;           /* pn_proactor_disconnect */
-  // Protected by schedule mutex
-  tslot_t *runner __attribute__((aligned(64)));  /* designated or running thread */
-  tslot_t *prev_runner;
-  bool sched_wake;
-  bool sched_pending;           /* If true, one or more unseen epoll or other events to process() */
-  bool runnable ;               /* in need of scheduling */
+typedef struct pcontext_t
+    UA_LOCK_TYPE(mutex);
+    pn_proactor_t *proactor;  /* Immutable */
+    pcontext_type_t type;
+    bool working;
+    bool on_wake_list;
+    bool wake_pending;             // unprocessed eventfd wake callback (convert to bool?)
+    struct pcontext_t *wake_next; // wake list, guarded by proactor eventfd_mutex
+    bool closing;
+    // Next 4 are protected by the proactor mutex
+    struct pcontext_t* next;  /* Protected by proactor.mutex */
+    struct pcontext_t* prev;  /* Protected by proactor.mutex */
+    int disconnect_ops;           /* ops remaining before disconnect complete */
+    bool disconnecting;           /* pn_proactor_disconnect */
+    // Protected by schedule mutex
+    tslot_t *runner __attribute__((aligned(64)));  /* designated or running thread */
+    tslot_t *prev_runner;
+    bool sched_wake;
+    bool sched_pending;           /* If true, one or more unseen epoll or other events to process() */
+    bool runnable ;               /* in need of scheduling */
 } pcontext_t;
 
 typedef enum {
@@ -110,8 +114,8 @@ typedef enum {
 
 // Epoll proactor's concept of a worker thread provided by the application.
 struct tslot_t {
-  pmutex mutex;  // suspend and resume
-  pthread_cond_t cond;
+  UA_LOCK_TYPE(mutex);  // suspend and resume
+  //pthread_cond_t cond;
   unsigned int generation;
   bool suspended;
   volatile bool scheduled;
@@ -144,7 +148,7 @@ struct pn_proactor_t {
 
   // wake subsystem
   int eventfd;
-  pmutex eventfd_mutex;
+  UA_LOCK_TYPE(eventfd_mutex);
   bool wakes_in_progress;
   pcontext_t *wake_list_first;
   pcontext_t *wake_list_last;
@@ -152,7 +156,7 @@ struct pn_proactor_t {
   int interruptfd;
   // If the process runs out of file descriptors, disarm listening sockets temporarily and save them here.
   acceptor_t *overflow;
-  pmutex overflow_mutex;
+  UA_LOCK_TYPE (overflow_mutex);
 
   // Sched vars specific to proactor context.
   bool sched_timeout;
@@ -161,7 +165,7 @@ struct pn_proactor_t {
   // Global scheduling/poller vars.
   // Warm runnables have assigned or earmarked tslots and can run right away.
   // Other runnables are run as tslots come available.
-  pmutex sched_mutex;
+  UA_LOCK_TYPE(sched_mutex);
   int n_runnables;
   int next_runnable;
   int n_warm_runnables;
@@ -174,7 +178,7 @@ struct pn_proactor_t {
   pcontext_t *sched_wake_first;
   pcontext_t *sched_wake_last;
   pcontext_t *sched_wake_current;
-  pmutex tslot_mutex;
+  UA_LOCK_TYPE(tslot_mutex);
   int earmark_count;
   bool earmark_drain;
   bool sched_wakes_pending;
