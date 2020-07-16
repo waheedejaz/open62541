@@ -25,7 +25,7 @@
 #include <proton/import_export.h>
 #include <proton/type_compat.h>
 
-#include "core/logger_private.h"
+#include "amqp/logger_private.h"
 
 // Type safe version of containerof used to find parent structs from contained structs
 #define containerof(ptr, type, member) ((type *)((char *)(1 ? (ptr) : &((type *)0)->member) - offsetof(type, member)))

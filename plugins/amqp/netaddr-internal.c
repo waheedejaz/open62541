@@ -17,6 +17,12 @@
  * under the License.
  */
 
+/**
+ * waheed: disable archtiecture macros. This should be taken care of by ua_architecture.h.
+ * Set netaddr_internal.h accordingly
+ */
+#if 0
+
 #ifdef _WIN32
 #ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0501
@@ -36,6 +42,8 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#endif
+
 #endif
 
 #include "netaddr-internal.h"

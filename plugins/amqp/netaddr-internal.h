@@ -21,6 +21,7 @@
  */
 
 #include <stdint.h>
+#include <open62541/network_tcp.h>
 
 struct pn_netaddr_t {
   union {
@@ -41,7 +42,7 @@ static inline int get_port(const struct sockaddr *sa) {
 }
 
 /* Set the port in sa or do nothing if it is not a known address type */
-static inline void set_port(struct sockaddr *sa, uint16_t port) {
+static inline void set_port(struct sockaddr *sa, UA_INT16 port) {
   switch (sa->sa_family) {
    case AF_INET: ((struct sockaddr_in*)sa)->sin_port = port; break;
    case AF_INET6: ((struct sockaddr_in6*)sa)->sin6_port = port; break;
@@ -50,10 +51,10 @@ static inline void set_port(struct sockaddr *sa, uint16_t port) {
 }
 
 /* If want has port=0 and got has port > 0 then return port of got, else return 0 */
-static inline uint16_t check_dynamic_port(const struct sockaddr *want, const struct sockaddr *got) {
+static inline UA_INT16 check_dynamic_port(const struct sockaddr *want, const struct sockaddr *got) {
   if (get_port(want) == 0) {
     int port = get_port(got);
-    if (port > 0) return (uint16_t)port;
+    if (port > 0) return (UA_INT16)port;
   }
   return 0;
 }

@@ -6,7 +6,8 @@
  */
 
 #include "ua_mqtt_adapter.h"
-#include "../../deps/mqtt-c/mqtt.h"
+//#include "../../deps/mqtt-c/mqtt.h"
+#include <mqtt-c/mqtt.h>
 #include "open62541/plugin/log_stdout.h"
 #include "open62541/util.h"
 

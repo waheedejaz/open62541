@@ -43,6 +43,11 @@ void pni_logger_log(pn_logger_t *logger, pn_log_subsystem_t subsystem, pn_log_le
 void pni_logger_vlogf(pn_logger_t *logger, pn_log_subsystem_t subsystem, pn_log_level_t severity, const char *fmt, va_list ap);
 void pni_logger_log_data(pn_logger_t *logger, pn_log_subsystem_t subsystem, pn_log_level_t severity, const char *msg, const char *bytes, size_t size);
 
+/**
+ * waheed: disable qpid internal logging for now
+ */
+
+#ifdef UA_ENABLE_AMQP_LOG
 #define PN_SHOULD_LOG(logger, subsys, sev) \
     (((sev) & PN_LEVEL_CRITICAL) || (((logger)->sub_mask & (subsys)) && ((logger)->sev_mask & (sev))))
 
@@ -59,6 +64,15 @@ void pni_logger_log_data(pn_logger_t *logger, pn_log_subsystem_t subsystem, pn_l
         if (PN_SHOULD_LOG(logger, subsys, sev)) \
             pni_logger_log_data(logger, (pn_log_subsystem_t) (subsys), (pn_log_level_t) (sev), __VA_ARGS__); \
     } while(0)
+
+#else
+
+#define PN_SHOULD_LOG(logger, subsys, sev)
+#define PN_LOG(logger, subsys, sev, ...)
+#define PN_LOG_DEFAULT(subsys, sev, ...)
+#define PN_LOG_DATA(logger, subsys, sev, ...)
+
+#endif
 
 #if __cplusplus
 }
