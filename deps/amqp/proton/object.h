@@ -1,6 +1,8 @@
 #ifndef PROTON_OBJECT_H
 #define PROTON_OBJECT_H 1
 
+#pragma GCC system_header
+
 /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one

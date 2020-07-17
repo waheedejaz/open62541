@@ -69,39 +69,39 @@ endmacro()
 # Tutorials #
 #############
 
-add_example(tutorial_datatypes tutorial_datatypes.c)
+#add_example(tutorial_datatypes tutorial_datatypes.c)
 
-add_example(tutorial_server_firststeps tutorial_server_firststeps.c)
+#add_example(tutorial_server_firststeps tutorial_server_firststeps.c)
 
-add_example(tutorial_server_variable tutorial_server_variable.c)
+#add_example(tutorial_server_variable tutorial_server_variable.c)
 
-add_example(tutorial_server_datasource tutorial_server_datasource.c)
+#add_example(tutorial_server_datasource tutorial_server_datasource.c)
 
-add_example(server_settimestamp server_settimestamp.c)
+#add_example(server_settimestamp server_settimestamp.c)
 
 if(UA_ENABLE_SUBSCRIPTIONS)
-    add_example(tutorial_server_monitoreditems tutorial_server_monitoreditems.c)
+ #   add_example(tutorial_server_monitoreditems tutorial_server_monitoreditems.c)
 endif()
 
-add_example(tutorial_server_variabletype tutorial_server_variabletype.c)
+#add_example(tutorial_server_variabletype tutorial_server_variabletype.c)
 
-add_example(tutorial_server_object tutorial_server_object.c)
+#add_example(tutorial_server_object tutorial_server_object.c)
 
 if(UA_ENABLE_METHODCALLS)
-    add_example(tutorial_server_method tutorial_server_method.c)
+ #   add_example(tutorial_server_method tutorial_server_method.c)
     if (UA_MULTITHREADING EQUAL 100)
-        add_example(tutorial_server_method_async tutorial_server_method_async.c)
+  #      add_example(tutorial_server_method_async tutorial_server_method_async.c)
     endif()
 endif()
 
-add_example(tutorial_client_firststeps tutorial_client_firststeps.c)
+#add_example(tutorial_client_firststeps tutorial_client_firststeps.c)
 
-add_example(tutorial_client_events tutorial_client_events.c)
+#add_example(tutorial_client_events tutorial_client_events.c)
 
 if(UA_ENABLE_SUBSCRIPTIONS_EVENTS)
-  add_example(tutorial_server_events tutorial_server_events.c)
+#  add_example(tutorial_server_events tutorial_server_events.c)
   if(UA_ENABLE_SUBSCRIPTIONS_ALARMS_CONDITIONS)
-    add_example(tutorial_server_alarms_conditions tutorial_server_alarms_conditions.c)
+#    add_example(tutorial_server_alarms_conditions tutorial_server_alarms_conditions.c)
   endif()
 endif()
 
@@ -121,73 +121,73 @@ install(PROGRAMS $<TARGET_FILE:server_ctt>
 
 add_example(client client.c)
 
-add_example(client_connect client_connect.c)
+#add_example(client_connect client_connect.c)
 
 if(UA_ENABLE_HISTORIZING)
-    add_example(client_historical client_historical.c)
+ #   add_example(client_historical client_historical.c)
 endif()
 
 install(PROGRAMS $<TARGET_FILE:client>
         DESTINATION bin
         RENAME ua_client)
 
-add_example(client_async client_async.c)
+#add_example(client_async client_async.c)
 
 if(UA_ENABLE_METHODCALLS)
     if (UA_MULTITHREADING EQUAL 100)
-        add_example(client_method_async client_method_async.c)
+#        add_example(client_method_async client_method_async.c)
     endif()
 endif()
 
-add_example(client_connect_loop client_connect_loop.c)
+#add_example(client_connect_loop client_connect_loop.c)
 
-add_example(client_connectivitycheck_loop client_connectivitycheck_loop.c)
+#add_example(client_connectivitycheck_loop client_connectivitycheck_loop.c)
 
 if(UA_ENABLE_SUBSCRIPTIONS)
-    add_example(client_subscription_loop client_subscription_loop.c)
+#    add_example(client_subscription_loop client_subscription_loop.c)
 endif()
 
 ####################
 # Feature Examples #
 ####################
 
-add_example(server_mainloop server_mainloop.c)
+#add_example(server_mainloop server_mainloop.c)
 
-add_example(server_instantiation server_instantiation.c)
+#add_example(server_instantiation server_instantiation.c)
 
-add_example(server_repeated_job server_repeated_job.c)
+#add_example(server_repeated_job server_repeated_job.c)
 
-add_example(server_inheritance server_inheritance.c)
+#add_example(server_inheritance server_inheritance.c)
 
-add_example(server_loglevel server_loglevel.c)
+#add_example(server_loglevel server_loglevel.c)
 
 if(UA_ENABLE_HISTORIZING)
-    add_example(tutorial_server_historicaldata tutorial_server_historicaldata.c)
+#    add_example(tutorial_server_historicaldata tutorial_server_historicaldata.c)
 endif()
 
 if(UA_ENABLE_ENCRYPTION)
-    add_example(server_encryption encryption/server_encryption.c)
-    add_example(client_encryption encryption/client_encryption.c)
-    target_include_directories(server_encryption PRIVATE "${PROJECT_SOURCE_DIR}/examples")
-    target_include_directories(client_encryption PRIVATE "${PROJECT_SOURCE_DIR}/examples")
+#    add_example(server_encryption encryption/server_encryption.c)
+#    add_example(client_encryption encryption/client_encryption.c)
+#    target_include_directories(server_encryption PRIVATE "${PROJECT_SOURCE_DIR}/examples")
+#    target_include_directories(client_encryption PRIVATE "${PROJECT_SOURCE_DIR}/examples")
 endif()
 
-add_example(custom_datatype_client custom_datatype/client_types_custom.c)
-add_example(custom_datatype_server custom_datatype/server_types_custom.c)
+#add_example(custom_datatype_client custom_datatype/client_types_custom.c)
+#add_example(custom_datatype_server custom_datatype/server_types_custom.c)
 
 if(UA_ENABLE_NODEMANAGEMENT)
-    add_example(access_control_server access_control/server_access_control.c)
-    add_example(access_control_client access_control/client_access_control.c)
+#    add_example(access_control_server access_control/server_access_control.c)
+#    add_example(access_control_client access_control/client_access_control.c)
     if(UA_ENABLE_ENCRYPTION)
-    add_example(access_control_client_encrypt access_control_encrypt/client_access_control_encrypt.c)
+#    add_example(access_control_client_encrypt access_control_encrypt/client_access_control_encrypt.c)
     endif()
 endif()
 
 if(UA_ENABLE_DISCOVERY_MULTICAST)
-    add_example(discovery_server_lds discovery/server_lds.c)
-    add_example(discovery_server_register discovery/server_register.c)
-    add_example(discovery_client_find_servers discovery/client_find_servers.c)
-    add_example(discovery_server_multicast discovery/server_multicast.c)
+#    add_example(discovery_server_lds discovery/server_lds.c)
+#    add_example(discovery_server_register discovery/server_register.c)
+#    add_example(discovery_client_find_servers discovery/client_find_servers.c)
+#    add_example(discovery_server_multicast discovery/server_multicast.c)
 endif()
 
 add_subdirectory(nodeset)
@@ -217,6 +217,12 @@ if(UA_ENABLE_PUBSUB)
         if(NOT WIN32)
             include_directories(${PROJECT_SOURCE_DIR}/../plugins)
             add_example(tutorial_pubsub_mqtt_publish pubsub/tutorial_pubsub_mqtt_publish.c)
+        endif()
+    endif()
+    if(UA_ENABLE_PUBSUB_AMQP)
+        if(NOT WIN32)
+            include_directories(${PROJECT_SOURCE_DIR}/../plugins/amqp)
+            add_example(tutorial_pubsub_amqp_publish pubsub/tutorial_pubsub_amqp_publish.c)
         endif()
     endif()
 endif()
