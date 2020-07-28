@@ -127,7 +127,7 @@ const pn_class_t PN_CLASSCLASS(PREFIX)[] = {{                             \
     PREFIX ## _inspect_cast                                               \
 }};                                                                       \
                                                                           \
-PREFIX ## _t *PREFIX ## _new(void) {                                      \
+static PREFIX ## _t *PREFIX ## _new(void) {                                      \
   return (PREFIX ## _t *) pn_class_new(PN_CLASSCLASS(PREFIX),             \
                                        sizeof(PREFIX ## _t));             \
 }

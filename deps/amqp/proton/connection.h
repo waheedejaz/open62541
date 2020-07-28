@@ -86,7 +86,7 @@ extern "C" {
  */
 #define PN_REMOTE_MASK (PN_REMOTE_UNINIT | PN_REMOTE_ACTIVE | PN_REMOTE_CLOSED)
 
-PN_EXTERN pn_connection_t *pn_connection(void);
+//PN_EXTERN pn_connection_t *pn_connection(void);
 
 /**
  * Factory to construct a new Connection.
